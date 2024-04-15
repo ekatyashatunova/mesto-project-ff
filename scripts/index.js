@@ -12,16 +12,16 @@ function createCardElement(card, deleteCardCall) {
     imageElement.src = card.link;
     imageElement.alt = card.name;
     titleElement.textContent = card.name;
-    deleteButton.addEventListener("click", function (deleteCardElement) {
-        cardElement.remove();
+    deleteButton.addEventListener("click", function () {
+        deleteCardCall(cardElement);
     });
     return cardElement;
 }
 
-function deleteCardElement() {
+function deleteCardElement(cardElement) {
     cardElement.remove();
 }
 
 initialCards.forEach(function (card) {
-    placeList.append(createCardElement(card));
+    placeList.append(createCardElement(card, deleteCardElement));
 });
