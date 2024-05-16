@@ -36,30 +36,8 @@ export function likeCard(likeButton) {
    }
 }
 
-const buttonSaveCard = document.querySelector('.popup__button');
 
-/*//Функция добавления новой карточки
-export function addNewCard (evt) {
-    evt.preventDefault();
-//Находим форму карточки в DOM
-const formNewCard = document.querySelector('.popup__form[name="new-place"]');
 
-//Находим поля формы карточки
-    const cardNameInput = formNewCard.querySelector('.popup__input_type_card-name');
-    const cardLinkInput = formNewCard.querySelector('.popup__input_type_url');
-
-    const cardData = {
-        link: cardLinkInput.value,
-        name:  cardNameInput.value,
-    }
-
-    const newCard = createCardElement(cardData);
-
-//Вставляем новые карточки в DOM
-    const placeCards = document.querySelector('.places__list');
-    placeCards.prepend(newCard);
-    formNewCard.reset();
-}*/
 
 
 
