@@ -1,10 +1,8 @@
-/*import {popupProfile, newCardOpen} from '../scripts/index.js';*/
-
 //Функция открытия попапа
  export function openPopup(popupOpen) {
     popupOpen.classList.add('popup_is-opened');
     document.addEventListener('keydown', closePopupEsc);
-   /* document.addEventListener('click', closeByOverlay);*/
+    document.addEventListener('click', closeByOverlay);
 }
 
 //Функция закрытия попапа
@@ -18,16 +16,14 @@ export function closePopup(popupClose) {
     });
     }
     document.removeEventListener('keydown', closePopupEsc);
-    /*document.removeEventListener('click', closeByOverlay);*/
-
-
+    document.removeEventListener('click', closeByOverlay);
 
 //Функция закрытия попапа по оверлею
- /*function closeByOverlay(evt) {
-    if (evt.target === )
-
-}*/
-
+ function closeByOverlay(evt) {
+    if (evt.target.classList.contains('popup_is-opened')) {
+        closePopup(evt.target);
+    }
+}
 
 //Функция закрытия попапа по кнопке ESC
  export function closePopupEsc(evt) {
