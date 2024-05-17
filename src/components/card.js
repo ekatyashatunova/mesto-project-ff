@@ -1,3 +1,4 @@
+import {openImage} from '../scripts/index.js';
 //Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -20,6 +21,11 @@ export function createCardElement(card, deleteCardCall, likeCallBack) {
     likeButton.addEventListener('click', () => {
         likeCallBack(likeButton);
     })
+
+    imageElement.addEventListener('click', () => {
+        openImage(card.link, card.name)
+    })
+
     return cardElement;
 }
 
@@ -35,6 +41,10 @@ export function likeCard(likeButton) {
     likeButton.classList.add('card__like-button_is-active')
    }
 }
+
+
+
+
 
 
 
