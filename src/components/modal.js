@@ -19,7 +19,7 @@ export function closePopup(popupClose) {
     document.removeEventListener('click', closeByOverlay);
 
 //Функция закрытия попапа по оверлею
- function closeByOverlay(evt) {
+export function closeByOverlay(evt) {
     if (evt.target.classList.contains('popup_is-opened')) {
         closePopup(evt.target);
     }
