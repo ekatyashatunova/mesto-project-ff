@@ -1,4 +1,5 @@
-import {openImage} from '../scripts/index.js';
+import { openImage } from "../scripts/index.js";
+
 //Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -18,13 +19,13 @@ export function createCardElement(card, deleteCardCall, likeCallBack) {
         deleteCardCall(cardElement);
     });
 
-    likeButton.addEventListener('click', () => {
+    likeButton.addEventListener("click", () => {
         likeCallBack(likeButton);
-    })
+    });
 
-    imageElement.addEventListener('click', () => {
-        openImage(card.link, card.name)
-    })
+    imageElement.addEventListener("click", () => {
+        openImage(card.link, card.name);
+    });
 
     return cardElement;
 }
@@ -35,21 +36,12 @@ export function deleteCardElement(cardElement) {
 }
 
 export function likeCard(likeButton) {
-   if(likeButton.classList.add('card__like-button_is-active')) {
-    likeButton.classList.remove('card__like-button_is-active')
-   } else {
-    likeButton.classList.add('card__like-button_is-active')
-   }
+    if (likeButton.classList.add("card__like-button_is-active")) {
+        likeButton.classList.remove("card__like-button_is-active");
+    } else {
+        likeButton.classList.add("card__like-button_is-active");
+    }
 }
-
-
-
-
-
-
-
-
-
 
 
 
