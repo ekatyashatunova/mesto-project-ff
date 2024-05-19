@@ -1,11 +1,9 @@
-import { openImage } from "../scripts/index.js";
-
 //Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
 
 //Функция создания карточек
 
-export function createCardElement(card, deleteCardCall, likeCallBack) {
+export function createCardElement(card, deleteCardCall, likeCallBack, openImage) {
     const cardElement = cardTemplate.querySelector(".places__item").cloneNode(true);
     const imageElement = cardElement.querySelector(".card__image");
     const deleteButton = cardElement.querySelector(".card__delete-button");
@@ -25,7 +23,7 @@ export function createCardElement(card, deleteCardCall, likeCallBack) {
 
     imageElement.addEventListener("click", () => {
         openImage(card.link, card.name);
-    });
+    })
 
     return cardElement;
 }
