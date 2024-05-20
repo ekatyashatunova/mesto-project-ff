@@ -8,15 +8,8 @@ export function openPopup(popupOpen) {
 //Функция закрытия попапа
 export function closePopup(popupClose) {
     popupClose.classList.remove('popup_is-opened');
-    const closeButtons = document.querySelectorAll('.popup__close');
-    closeButtons.forEach((button) => {
-        const popup = button.closest('.popup');
-        button.addEventListener('click', () => {
-        closePopup(popup) 
-    });
-});
-document.removeEventListener('keydown', closePopupEsc);
-document.removeEventListener('click', closeByOverlay);
+    document.removeEventListener('keydown', closePopupEsc);
+    document.removeEventListener('click', closeByOverlay);
 }
 
 //Функция закрытия попапа по оверлею
