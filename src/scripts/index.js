@@ -2,6 +2,7 @@ import '../pages/index.css';
 import { initialCards } from '../scripts/cards.js';
 import { openPopup, closePopup } from '../components/modal.js';
 import { createCardElement, deleteCardElement, likeCard} from '../components/card.js';
+import { enableValidation, clearValidation } from '../components/validation.js';
 
 //DOM-узлы
 const placeList = document.querySelector('.places__list');
@@ -16,6 +17,17 @@ const addProfileButton = document.querySelector('.profile__add-button');
 const popupProfile = document.querySelector('.popup_type_edit');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
+
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+  }; 
+
+  
 
 //Находим форму профиля в DOM
 const formEditProfile = document.querySelector('.popup__form[name="edit-profile"]');
@@ -42,6 +54,9 @@ profileButton.addEventListener('click', () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupProfile);
+
+//Очистка формы профиля
+    clearValidation(popupProfile.querySelector(validationConfig.formSelector), validationConfig);
 });
 
 const popupNewCard = document.querySelector('.popup_type_new-card');
@@ -58,6 +73,9 @@ const cardLinkInput = formNewCard.querySelector('.popup__input_type_url');
 //Обработчик события открытия модального окна карточки
 addProfileButton.addEventListener('click', () => {
     openPopup(popupNewCard);
+
+    //Очистка формы карточки
+    clearValidation(popupNewCard.querySelector(validationConfig.formSelector), validationConfig);
 });
 
 //Функция добавления новой карточки
@@ -82,6 +100,7 @@ const closeButtons = document.querySelectorAll('.popup__close');
 const popupImage = document.querySelector('.popup__image');
 const imageCaption = document.querySelector('.popup__caption');
 
+//Отк
 function openImage(imgSrc, imgCaption) {
     imageCaption.textContent = imgCaption;
     popupImage.src = imgSrc;
@@ -96,5 +115,5 @@ function openImage(imgSrc, imgCaption) {
     });
 });
 
-
+enableValidation(validationConfig);
 
