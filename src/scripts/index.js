@@ -3,6 +3,7 @@ import { initialCards } from '../scripts/cards.js';
 import { openPopup, closePopup } from '../components/modal.js';
 import { createCardElement, deleteCardElement, likeCard} from '../components/card.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
+import { getEditProfile, getInitialCards, editProfileToServer, newCardToServer, } from '../components/api.js';
 
 //DOM-узлы
 const placeList = document.querySelector('.places__list');
@@ -19,7 +20,6 @@ const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
 
-
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -29,7 +29,18 @@ const validationConfig = {
     errorClass: 'popup__error_visible'
   }; 
 
-  
+//Находим 
+const editProfileAvatar = document.querySelector('.profile__image'); 
+const popupAvatar = document.querySelector('.popup_type_edit_profile_avatar');
+
+//Обработчик события открытия модального окна аватара
+editProfileAvatar.addEventListener('click', () => {
+    openPopup(popupAvatar);
+})
+
+//Обработчик отправки формы аватра
+
+
 
 //Находим форму профиля в DOM
 const formEditProfile = document.querySelector('.popup__form[name="edit-profile"]');
@@ -117,5 +128,5 @@ function openImage(imgSrc, imgCaption) {
     });
 });
 
-
+enableValidation(validationConfig);
 
