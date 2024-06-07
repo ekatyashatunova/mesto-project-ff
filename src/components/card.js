@@ -33,6 +33,7 @@ export function deleteCardElement(cardElement) {
     cardElement.remove();
 }
 
+//Функция лайка карточки
 export function likeCard(likeButton) {
     if (likeButton.classList.add('card__like-button_is-active')) {
         likeButton.classList.remove('card__like-button_is-active');
@@ -40,6 +41,8 @@ export function likeCard(likeButton) {
         likeButton.classList.add('card__like-button_is-active');
     }
 }
+
+
 
 
 
