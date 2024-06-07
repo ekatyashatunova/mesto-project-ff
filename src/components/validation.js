@@ -1,21 +1,39 @@
-//Валидация профиля
-/*const validationConfig = {
-    formElement: '.popup__form',
-    inputElement: '.popup__input',
-    submitButtonElement: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-  }; */
+
+
+//Добавляем слушателей всем полям ввода
+function setEventListeners(formElement,validationConfig ) {
+    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+    const buttonElement = formElement.querySelector(validationConfig.submitButtonElement);
+    toggleButtonState(inputList, buttonElement, validationConfig);
+    inputList.forEach((inputElement) => {
+        inputElement.addEventListener('input', function () {
+            checkInputValidity(formElement, inputElement, validationConfig);
+            toggleButtonState(inputList, buttonElement, validationConfig)
+          });
+        });
+}
+
+//Функция включения валидации
+export function enableValidation(validationConfig) {
+    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+    formList.forEach((formElement) => {
+        formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+          }); 
+          setEventListeners(formElement, validationConfig)
+          });
+    }
+
+ 
+
 
 //Показываем сообщение об ошибке
 function showInputError(formElement, inputElement, errorMessage, validationConfig) {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-    console.log(errorElement);
-    inputElement.classList.add(validationConfig.inputErrorClass);
     errorElement.textContent = errorMessage;
+    inputElement.classList.add(validationConfig.inputErrorClass);
     errorElement.classList.add(validationConfig.errorClass);
-    console.log(errorElement);
+    
 
 }
 
@@ -42,55 +60,33 @@ function checkInputValidity(formElement, inputElement, validationConfig ) {
       }
 }
 
-//Добавляем слушателей всем полям ввода
-function setEventListeners(formElement,validationConfig ) {
-    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputElement));
-    const buttonElement = formElement.querySelector(validationConfig.submitButtonElement);
-    toggleButtonState(inputList,buttonElement, validationConfig);
-    inputList.forEach((inputElement) => {
-        inputSelector.addEventListener('input', function () {
-            checkInputValidity(formElement, inputElement, validationConfig);
-            toggleButtonState(inputList, buttonElement, validationConfig )
-          });
-        });
-}
 
-//Функция включения валидации
-export function enableValidation(validationConfig) {
-    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
-    formList.forEach((formElement) => {
-        formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-          }); 
-          setEventListeners(formElement, validationConfig)
-          });
-    }
-
-//
+//Функция проверки невалидных полей
 function hasInvalidInput(inputList) {
     return inputList.some((inputElement) => {
-        return !inputElement.validity.valid
+        return !inputElement.validity.valid;
     })
 }
 
 //Функция переключения кнопки "Сохранить"
-function toggleButtonState (inputList, buttonElement) {
+function toggleButtonState(inputList, buttonElement, validationConfig) {
     if (hasInvalidInput(inputList)) {
         buttonElement.disabled = true;
-        buttonElement.classList.add(validationConfig.inactiveButtonClass)
+        buttonElement.classList.add(`.${validationConfig.inactiveButtonClass}`)
     } else {
         buttonElement.disabled = false;
-        buttonElement.classList.remove(validationConfig.inactiveButtonClass)
+        buttonElement.classList.remove(`.${validationConfig.inactiveButtonClass}`)
     }
 }
 
 //Функция очистки ошибок валидации
 export function clearValidation(formElement, validationConfig) {
-   const inputErrorList =  Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+   const inputErrorList =  Array.from(formElement.querySelectorAll(`.${validationConfig.inputErrorClass}`));
    inputErrorList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement.validationConfig)
+    hideInputError(formElement, inputElement, validationConfig)
    });
    const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   formElement.reset();
   toggleButtonState(inputList, buttonElement, validationConfig);
 }

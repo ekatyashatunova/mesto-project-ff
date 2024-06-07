@@ -18,6 +18,8 @@ const popupProfile = document.querySelector('.popup_type_edit');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
+
+
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -100,7 +102,7 @@ const closeButtons = document.querySelectorAll('.popup__close');
 const popupImage = document.querySelector('.popup__image');
 const imageCaption = document.querySelector('.popup__caption');
 
-//Отк
+//Функция открытия изображения по клику
 function openImage(imgSrc, imgCaption) {
     imageCaption.textContent = imgCaption;
     popupImage.src = imgSrc;
@@ -115,5 +117,5 @@ function openImage(imgSrc, imgCaption) {
     });
 });
 
-enableValidation(validationConfig);
+
 
