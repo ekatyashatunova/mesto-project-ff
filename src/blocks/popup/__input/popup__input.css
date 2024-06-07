@@ -31,22 +31,14 @@
 }
 
 .popup__input_type_error {
-  color: #FF0000;
-  font-size: 12px;
-  line-height: 14.52px;
-  font-weight: 400;
-
-}
-
-.popup__error_visible {
-  color: #FF0000;
-  font-size: 12px;
-  line-height: 14.52px;
-  font-weight: 400;
-}
-
-.popup__input:invalid {
   border-bottom: 1px solid #FF0000;
 }
+
+
+.popup__error_visible {
+  opacity: 1;
+}
+
+
 
 
