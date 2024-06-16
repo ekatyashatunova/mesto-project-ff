@@ -6,17 +6,17 @@ const configAPI = {
   },
 }
 
-const handleResponse = (response) => {
-    if (response.ok) {
-      return response.json();
+const handleResponse = (res) => {
+    if (res.ok) {
+      return res.json();
     }
-    return Promise.reject(`Что-то пошло не так: ${response.status}`); 
+    return Promise.reject(`Что-то пошло не так: ${res.status}`); 
 }
 
 //Получение информации о пользователе с сервера
 export const getEditProfile = () => {
-  return fetch(`.${configAPI.baseUrl}/users/me`, {
-    method: "GET",
+  return fetch(`${configAPI.baseUrl}/users/me`, {
+    method: 'GET',
     headers: configAPI.headers,
   }) 
   .then(handleResponse);
@@ -24,8 +24,8 @@ export const getEditProfile = () => {
 
 //Получение инфы о карточках с сервера
 export const getInitialCard = () => {
-  return fetch(`.${configAPI.baseUrl}/cards`, {
-    method: "GET",
+  return fetch(`${configAPI.baseUrl}/cards`, {
+    method: 'GET',
     headers: configAPI.headers,
   })
   .then(handleResponse)
@@ -34,7 +34,7 @@ export const getInitialCard = () => {
 //Редактирование профиля и отправка данных на сервер
 export const editProfileToServer = (nameInput, jobInput) => {
   return fetch(`${configAPI.baseUrl}/users/me`, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: configAPI.headers,
     body: JSON.stringify({
     name: nameInput.value,
@@ -55,5 +55,23 @@ export const newCardToServer = (newCard) => {
     }),
   })
   .then(handleResponse)
+}
+
+//Удаление карточки
+
+//Постановка лайка
+
+//Снятие лайка
+
+//Обновление аватара пользователя
+export const updateAvatar = (avatar) => {
+  return fetch(`${configAPI.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: configAPI.headers,
+    body: JSON.stringify({
+      link: avatar.link
+    }),
+})
+.then(handleResponse)
 }
 
