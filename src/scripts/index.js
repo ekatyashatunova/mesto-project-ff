@@ -1,9 +1,9 @@
 import '../pages/index.css';
-import { initialCards } from '../scripts/cards.js';
+/*import { initialCards } from '../scripts/cards.js';*/
 import { openPopup, closePopup } from '../components/modal.js';
 import { createCardElement, deleteCardElement, likeCard} from '../components/card.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
-import { getEditProfile, getInitialCard, editProfileToServer, newCardToServer, updateAvatar } from '../components/api.js';
+import { getEditProfile, getInitialCard, editProfileToServer, newCardToServer, updateAvatar/*, deleteCardId, likeCardId, unlikeCardId*/} from '../components/api.js';
 
 //DOM-узлы
 const placeList = document.querySelector('.places__list');
@@ -19,7 +19,7 @@ const popupProfile = document.querySelector('.popup_type_edit');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
-
+//Объект для валидации
 const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -29,46 +29,18 @@ const validationConfig = {
     errorClass: 'popup__error_visible'
   }; 
 
-//Ответ с сервера о пользователе
-/*  getEditProfile() 
-  .then((result) => {
-    console.log(result);
-})
-.catch((err) => {
-    console.log(err); 
-  }); 
 
-//Получаем ответ с сервера о карточках и выводим их на страницу
-getInitialCard()
-.then((card) => {
-    return createCardElement(card, deleteCardElement, likeCard, openImage)
-    })
-    
-    .catch((err) => {
-        console.log(err)
-    })
-
-    newCardToServer(cardNew) 
-    .then((card) => {
-        return createCardElement(card, deleteCardElement, likeCard, openImage)
-    })
-    .then((element) => {
-        placeList.prepend(element)
-    })
-    .catch((err) => {
-        console.log(err)
-    })*/
-
-    
+ 
 Promise.all([getEditProfile(), getInitialCard()])
 .then(([userName, cardName]) => {
     profileTitle.textContent = userName.name;
     profileDescription.textContent = userName.about;
     editProfileAvatar.link = userName.avatar;
     const userId = userName._id;
+    /*editProfileAvatar.style.backgroundImage = `url(${userName.avatar})`;*/
 
     cardName.forEach((card) => {
-        placeList.append(createCardElement(card, deleteCardElement, likeCard, openImage))
+        placeList.append(createCardElement(card, deleteCardElement, likeCard, openImage, userId/*, deleteCardId, likeCardId, unlikeCardId*/))
     })
     
 })
@@ -109,7 +81,7 @@ editProfileToServer(nameInput, jobInput)
 })
 }
 
-//Обработчик отправки формы
+//Обработчик отправки формы профиля
 function handleFormSubmit(evt) {
     evt.preventDefault();
     profileTitle.textContent = nameInput.value;
@@ -125,8 +97,6 @@ formEditProfile.addEventListener('submit', handleFormSubmit);
 
 
 const popupNewCard = document.querySelector('.popup_type_new-card');
-const cardImage = document.querySelector('.card__image');
-const cardTitle = document.querySelector('.card__title');
 
 //Находим форму карточки в DOM
 const formNewCard = document.querySelector('.popup__form[name="new-place"]');
@@ -156,7 +126,7 @@ function addNewCard(evt) {
 
    newCardToServer(cardNew) 
 .then((card) => {
-    return createCardElement(card, deleteCardElement, likeCard, openImage)
+    return createCardElement(card, deleteCardElement, likeCard, openImage, userId/*, deleteCardId, likeCardId, unlikeCardId*/)
 })
 .then((element) => {
     placeList.prepend(element)
@@ -179,7 +149,7 @@ function addNewCard(evt) {
 formNewCard.addEventListener('submit', addNewCard);
 
 
-
+//Находим данные для карточек по клику на них
 const imageOpen = document.querySelector('.popup_type_image');
 const closeButtons = document.querySelectorAll('.popup__close');
 const popupImage = document.querySelector('.popup__image');
@@ -202,39 +172,41 @@ function openImage(imgSrc, imgCaption) {
 
 enableValidation(validationConfig);
 
-//Находим 
+//Находим форму и поля формы для аватара пользователя
 const editProfileAvatar = document.querySelector('.profile__image'); 
 const popupAvatar = document.querySelector('.popup_type_edit_profile_avatar');
 const formProfileAvatar = document.querySelector('.popup__form[name="edit-profile-avatar"]');
 const profileAvatarInput = formProfileAvatar.querySelector('.popup__input_type_url');
 
-//Обработчик события открытия модального окна аватара
+//Обработчик события открытия модального окна аватара пользователя
 editProfileAvatar.addEventListener('click', () => {
     openPopup(popupAvatar);
 })
 
 //Обработчик отправки формы аватра
-function formSubmitAvatar(evt) {
+/*function formSubmitAvatar(evt) {
     evt.preventDefault();
     const buttonSaveAvatar = document.querySelector('.popup__button');
     buttonSaveAvatar.textContent = 'Сохранение...';
 
-    updateAvatar(profileAvatarInput)
+    const newAvatar = {
+        link: profileAvatarInput.value
+    }
+
+    updateAvatar(newAvatar)
     .then((user) => {
         editProfileAvatar.style.backgroundImage = `url(${user.avatar})`;
-        formProfileAvatar.reset();
-        clearValidation(popupAvatar.querySelector(validationConfig.formSelector), validationConfig)
- closePopup(popupAvatar)
+        clearValidation(popupAvatar.querySelector(validationConfig.formSelector), validationConfig);
+      closePopup(popupAvatar)
+    })
     .catch((err) => {
             console.log(err)
         })
     .finally(() => {
         buttonSaveAvatar.textContent = 'Сохранить';
+        formProfileAvatar.reset();
         })
-
-    })
-    /*formProfileAvatar.reset();*/
-}
+}*/
 
 //Обработчик события аватара при нажатии кнопку "Сохранить"
 formProfileAvatar.addEventListener('submit', formSubmitAvatar);
