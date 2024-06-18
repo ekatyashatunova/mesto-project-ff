@@ -3,12 +3,13 @@ const cardTemplate = document.querySelector('#card-template').content;
 
 //Функция создания карточек
 
-export function createCardElement(card, deleteCardCall, likeCallBack, openImage) {
+export function createCardElement(card, deleteCardCall, likeCallBack, openImage, userId) {
     const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
     const imageElement = cardElement.querySelector('.card__image');
     const deleteButton = cardElement.querySelector('.card__delete-button');
     const titleElement = cardElement.querySelector('.card__title');
     const likeButton = cardElement.querySelector('.card__like-button');
+    /*const cardId = cardData._id;*/
     imageElement.src = card.link;
     imageElement.alt = card.name;
     titleElement.textContent = card.name;
@@ -29,8 +30,24 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage)
 }
 
 //Функция удаления карточек
+/*export function deleteCardElement(cardElement) {
+cardElement.remove();
+}*/
 export function deleteCardElement(cardElement) {
-    cardElement.remove();
+    if (cardElement.owner._id !== userId) {
+        deleteButton.remove();   
+     } else (
+        deleteButton.addEventListener('click', (evt) => {
+            deleteCardCall(cardId)
+            .then(() => {
+                placeList.prepend(element)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        })
+    )
+   
 }
 
 //Функция лайка карточки
