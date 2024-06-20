@@ -36,17 +36,19 @@ cardElement.remove();
 export function deleteCardElement(cardElement) {
     if (cardElement.owner._id !== userId) {
         deleteButton.remove();   
-     } else (
+     } else {
         deleteButton.addEventListener('click', (evt) => {
             deleteCardCall(cardId)
             .then(() => {
-                placeList.prepend(element)
+                const card = evt.target.closest('.places__item.card');
+                card.remove();
+              })
             })
             .catch((err) => {
                 console.log(err)
             })
-        })
-    )
+        }
+    
    
 }
 
