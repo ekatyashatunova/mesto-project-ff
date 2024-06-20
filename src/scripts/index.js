@@ -3,7 +3,7 @@ import '../pages/index.css';
 import { openPopup, closePopup } from '../components/modal.js';
 import { createCardElement, deleteCardElement, likeCard} from '../components/card.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
-import { getEditProfile, getInitialCard, editProfileToServer, newCardToServer, updateAvatar/*, deleteCardId, likeCardId, unlikeCardId*/} from '../components/api.js';
+import { getEditProfile, getInitialCard, editProfileToServer, newCardToServer, updateAvatar, deleteCardId, likeCardId, unlikeCardId} from '../components/api.js';
 
 //DOM-узлы
 const placeList = document.querySelector('.places__list');
@@ -40,7 +40,7 @@ Promise.all([getEditProfile(), getInitialCard()])
     editProfileAvatar.style.backgroundImage = `url(${userName.avatar})`;
 
     cardName.forEach((card) => {
-        placeList.append(createCardElement(card, deleteCardElement, likeCard, openImage, userId/*, deleteCardId, likeCardId, unlikeCardId*/))
+        placeList.append(createCardElement(card, deleteCardElement, likeCard, openImage, userId, deleteCardId, likeCardId, unlikeCardId))
     })
     
 })
@@ -64,7 +64,7 @@ profileButton.addEventListener('click', () => {
 
 //Функция редактирования профиля при нажатии на "Сохранить"
 function editProfileSaved() {
-    const buttonSaveProfile = document.querySelector('.popup__button');
+    const buttonSaveProfile = formEditProfile.querySelector('.popup__button');
     buttonSaveProfile.textContent = 'Сохранение...';
 
 editProfileToServer(nameInput, jobInput) 
@@ -116,20 +116,21 @@ addProfileButton.addEventListener('click', () => {
 //Функция добавления новой карточки
 function addNewCard(evt) {
     evt.preventDefault();
-    const buttonSaveCard = document.querySelector('.popup__button');
-    buttonSaveCard.textContent = 'Сохранение...';
 
     const cardNew = {
         link: cardLinkInput.value,
         name: cardNameInput.value,
     };
 
+    const buttonSaveCard = formNewCard.querySelector('.popup__button');
+    buttonSaveCard.textContent = 'Сохранение...';
+
    newCardToServer(cardNew) 
-.then((card) => {
-    return createCardElement(card, deleteCardElement, likeCard, openImage, userId/*, deleteCardId, likeCardId, unlikeCardId*/)
-})
+/*.then((card) => {
+    return createCardElement(card, deleteCardElement, likeCard, openImage, userId/*, deleteCardId, likeCardId, unlikeCardId)
+})*/
 .then((element) => {
-    placeList.prepend(element)
+    placeList.prepend(createCardElement(element, deleteCardElement, likeCard, openImage, userId, deleteCardId, likeCardId, unlikeCardId))
 })
 .catch((err) => {
     console.log(err)
@@ -188,12 +189,13 @@ editProfileAvatar.addEventListener('click', () => {
 //Обработчик отправки формы аватра
 function formSubmitAvatar(evt) {
     evt.preventDefault();
-    const buttonSaveAvatar = document.querySelector('.popup__button');
-    buttonSaveAvatar.textContent = 'Сохранение...';
 
     const newAvatar = {
         avatar: profileAvatarInput.value
     }
+
+    const buttonSaveAvatar = formProfileAvatar.querySelector('.popup__button');
+    buttonSaveAvatar.textContent = 'Сохранение...';
 
     updateAvatar(newAvatar)
     .then((user) => {
@@ -213,5 +215,22 @@ function formSubmitAvatar(evt) {
 //Обработчик события аватара при нажатии кнопку "Сохранить"
 formProfileAvatar.addEventListener('submit', formSubmitAvatar);
 
+/*//Находим форму и поля формы для удаления карточки
+const popupCardDeletion = document.querySelector('.popup_type_card_deletion');
+const deleteCardButton = document.querySelector('.card__delete-button');
+const formDeletion = document.querySelector('.popup__form[name="deletion-card"]')
+
+//Обработчик события открытия модального окна удаления карточки
+deleteCardButton.addEventListener('click', () => {
+    openPopup(popupCardDeletion)
+})
+
+//Обработчик отправки формы удаления карточки
+function formSubmitDeletionCard(evt) {
+    evt.preventDefault();
 
 
+}
+
+//Обработчик события удаления карточки при нажатии кнопку "Сохранить"
+formDeletion.addEventListener('submit', formSubmitDeletionCard);*/
