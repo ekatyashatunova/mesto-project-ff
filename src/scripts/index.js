@@ -37,7 +37,7 @@ Promise.all([getEditProfile(), getInitialCard()])
     profileDescription.textContent = userName.about;
     editProfileAvatar.link = userName.avatar;
     const userId = userName._id;
-    /*editProfileAvatar.style.backgroundImage = `url(${userName.avatar})`;*/
+    editProfileAvatar.style.backgroundImage = `url(${userName.avatar})`;
 
     cardName.forEach((card) => {
         placeList.append(createCardElement(card, deleteCardElement, likeCard, openImage, userId/*, deleteCardId, likeCardId, unlikeCardId*/))
@@ -183,30 +183,32 @@ editProfileAvatar.addEventListener('click', () => {
     openPopup(popupAvatar);
 })
 
+//Функция редактирования профиля при нажатии на "Сохранить"
+
 //Обработчик отправки формы аватра
-/*function formSubmitAvatar(evt) {
+function formSubmitAvatar(evt) {
     evt.preventDefault();
     const buttonSaveAvatar = document.querySelector('.popup__button');
     buttonSaveAvatar.textContent = 'Сохранение...';
 
     const newAvatar = {
-        link: profileAvatarInput.value
+        avatar: profileAvatarInput.value
     }
 
     updateAvatar(newAvatar)
     .then((user) => {
         editProfileAvatar.style.backgroundImage = `url(${user.avatar})`;
         clearValidation(popupAvatar.querySelector(validationConfig.formSelector), validationConfig);
-      closePopup(popupAvatar)
     })
     .catch((err) => {
             console.log(err)
         })
     .finally(() => {
         buttonSaveAvatar.textContent = 'Сохранить';
+        closePopup(popupAvatar);
         formProfileAvatar.reset();
         })
-}*/
+}
 
 //Обработчик события аватара при нажатии кнопку "Сохранить"
 formProfileAvatar.addEventListener('submit', formSubmitAvatar);
