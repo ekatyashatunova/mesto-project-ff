@@ -14,7 +14,7 @@ const handleResponse = (res) => {
 }
 
 //Получение информации о пользователе с сервера
-export const getEditProfile = () => {
+export function getEditProfile() {
   return fetch(`${configAPI.baseUrl}/users/me`, {
     method: 'GET',
     headers: configAPI.headers,
@@ -23,7 +23,7 @@ export const getEditProfile = () => {
 }
 
 //Получение инфы о карточках с сервера
-export const getInitialCard = () => {
+export function getInitialCard() {
   return fetch(`${configAPI.baseUrl}/cards`, {
     method: 'GET',
     headers: configAPI.headers,
@@ -32,7 +32,7 @@ export const getInitialCard = () => {
 }
 
 //Редактирование профиля и отправка данных на сервер
-export const editProfileToServer = (nameInput, jobInput) => {
+export function editProfileToServer(nameInput, jobInput) {
   return fetch(`${configAPI.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: configAPI.headers,
@@ -45,7 +45,7 @@ export const editProfileToServer = (nameInput, jobInput) => {
 }
 
 //Добавление новой карточки и отправка на сервер
-export const newCardToServer = (newCard) => {
+export function newCardToServer(newCard) {
   return fetch(`${configAPI.baseUrl}/cards`, {
     method: 'POST',
     headers: configAPI.headers,
@@ -58,7 +58,7 @@ export const newCardToServer = (newCard) => {
 }
 
 //Удаление карточки
-export const deleteCardId = (cardId) => {
+export function deleteCardId(cardId) {
   return fetch(`${configAPI.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: configAPI.headers,
@@ -67,7 +67,7 @@ export const deleteCardId = (cardId) => {
 }
 
 //Постановка лайка
-export const likeCardId = (cardId) => {
+export function likeCardId(cardId) {
   return fetch(`${configAPI.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: configAPI.headers,
@@ -76,7 +76,7 @@ export const likeCardId = (cardId) => {
 }
 
 //Снятие лайка
-export const unlikeCardId = (cardId) => {
+export function unlikeCardId(cardId) {
   return fetch(`${configAPI.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: configAPI.headers,
@@ -86,13 +86,14 @@ export const unlikeCardId = (cardId) => {
 
 
 //Обновление аватара пользователя
-/*export const updateAvatar = (profileAvatarInput) => {
+export function updateAvatar(newAvatar) {
   return fetch(`${configAPI.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: configAPI.headers,
     body: JSON.stringify({
-      avatar: profileAvatarInput.value
+      avatar: newAvatar.avatar
     }),
   })
-}*/
+  .then(handleResponse)
+}
 
