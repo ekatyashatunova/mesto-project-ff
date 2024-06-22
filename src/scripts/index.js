@@ -1,5 +1,4 @@
 import "../pages/index.css";
-/*import { initialCards } from '../scripts/cards.js';*/
 import { openPopup, closePopup } from "../components/modal.js";
 import { createCardElement, deleteCardElement, likeCard} from "../components/card.js";
 import { enableValidation, clearValidation } from "../components/validation.js";
@@ -103,9 +102,6 @@ const cardLinkInput = formNewCard.querySelector(".popup__input_type_url");
 //Обработчик события открытия модального окна карточки
 addProfileButton.addEventListener("click", () => {
     openPopup(popupNewCard);
-
-    //Очистка формы карточки
-    /*clearValidation(popupNewCard.querySelector(validationConfig.formSelector), validationConfig);*/
 });
 
 //Функция добавления новой карточки
@@ -133,10 +129,6 @@ function addNewCard(evt) {
             closePopup(popupNewCard);
             formNewCard.reset();
         });
-
-    /*//Вставляем новые карточки в DOM
-    placeList.prepend(createCardElement(cardNew, deleteCardElement, likeCard, openImage));
-    formNewCard.reset();*/
 }
 
 //Обработчик события при добавлении карточки при нажатии кнопки "Сохранить"
