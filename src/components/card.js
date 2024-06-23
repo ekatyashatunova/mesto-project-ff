@@ -55,7 +55,7 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
            
                 .then((res) => {
                     cardLikeCount.textContent = res.likes.length
-                    likeCallBack(likeButton);
+                    
                 })
 
                 .then(() => {
