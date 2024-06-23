@@ -44,25 +44,26 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
     function deleteLike(likeButton) {
         likeButton.classList.remove("card__like-button_is-active");
     }
-
+        
     function pressCardLike() {
       if (cardLikes.some(user => user._id === userId)) {
             addLike(likeButton);
             unlikeCardId(cardId)
-                .then((res) => {
-                    cardLikeCount.textContent = res.likes.length
+                .then((card) => {
+                    cardLikeCount.textContent = card.likes.length
                 })
                .then(() => {
                     likeCallBack(likeButton);
                 })
+                
                 .catch((err) => {
                     console.log(err) 
                 });
         } else {
             deleteLike(likeButton);
             likeCardId(cardId)
-                .then((res) => {
-                    cardLikeCount.textContent = res.likes.length;
+                .then((card) => {
+                    cardLikeCount.textContent = card.likes.length;
                 })
                 .then(() => {
                     likeCallBack(likeButton);
