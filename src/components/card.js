@@ -45,27 +45,35 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
         likeButton.classList.remove("card__like-button_is-active");
     }
         
-    function pressCardLike() {
-      if (cardLikes.some(user => user._id === userId)) {
-            addLike(likeButton);
+    function pressCardLike() { 
+       if (cardLikes.some(user => user._id === userId)) {
+       /* cardLikes.some(card => card._id === cardId)
+      if (card.owner._id === userId) */ {
+        
+            deleteLike(likeButton);
             unlikeCardId(cardId)
-                .then((card) => {
-                    cardLikeCount.textContent = card.likes.length
+           
+                .then((res) => {
+                    cardLikeCount.textContent = res.likes.length
+                    likeCallBack(likeButton);
                 })
-               .then(() => {
+
+                .then(() => {
                     likeCallBack(likeButton);
                 })
                 
                 .catch((err) => {
                     console.log(err) 
                 });
-        } else {
-            deleteLike(likeButton);
+        }} else {
+           
+            addLike(likeButton);
             likeCardId(cardId)
-                .then((card) => {
-                    cardLikeCount.textContent = card.likes.length;
+                .then((res) => {
+                 cardLikeCount.textContent = res.likes.length;
                 })
-                .then(() => {
+
+               .then(() => {
                     likeCallBack(likeButton);
                 })
                 .catch((err) => {
