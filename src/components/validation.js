@@ -79,6 +79,5 @@ export function clearValidation(formElement, validationConfig) {
     });
     const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-    formElement.reset();
     toggleButtonState(inputList, buttonElement, validationConfig);
 }
