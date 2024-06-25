@@ -28,16 +28,21 @@ const validationConfig = {
     errorClass: "popup__error_visible",
 };
 
-Promise.all([getEditProfile(), getInitialCard()]).then(([userName, cardName]) => {
+let userId;
+
+Promise.all([getEditProfile(), getInitialCard()])
+.then(([userName, cardName]) => {
     profileTitle.textContent = userName.name;
     profileDescription.textContent = userName.about;
-    /*editProfileAvatar.link = userName.avatar;*/
     const userId = userName._id;
     editProfileAvatar.style.backgroundImage = `url(${userName.avatar})`;
 
     cardName.forEach((card) => {
         placeList.append(createCardElement(card, deleteCardElement,likeCard, openImage, userId, deleteCardId, likeCardId, unlikeCardId));
-    });
+    })
+})
+.catch((err) => {
+    console.log(err)
 });
 
 //Находим форму профиля в DOM
@@ -52,13 +57,11 @@ profileButton.addEventListener("click", () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupProfile);
-
-    //Очистка формы профиля
-    clearValidation(popupProfile.querySelector(validationConfig.formSelector), validationConfig);
 });
 
 //Функция редактирования профиля при нажатии на "Сохранить"
-function editProfileSaved() {
+function handleFormSubmit(evt) {
+    evt.preventDefault();
     const buttonSaveProfile = formEditProfile.querySelector(".popup__button");
     buttonSaveProfile.textContent = "Сохранение...";
 
@@ -66,25 +69,16 @@ function editProfileSaved() {
         .then((data) => {
             profileTitle.textContent = data.name;
             profileDescription.textContent = data.about;
+            formEditProfile.reset();
+            clearValidation(popupProfile.querySelector(validationConfig.formSelector), validationConfig);
+            closePopup(popupProfile);
         })
         .catch((err) => {
             console.log(err);
         })
         .finally(() => {
             buttonSaveProfile.textContent = "Сохранить";
-            closePopup(popupProfile);
         });
-}
-
-//Обработчик отправки формы профиля
-function handleFormSubmit(evt) {
-    evt.preventDefault();
-    profileTitle.textContent = nameInput.value;
-    profileDescription.textContent = jobInput.value;
-    editProfileSaved();
-
-    //Очистка формы профиля
-    /*formEditProfile.reset();*/
 }
 
 //Обработчик события профиля при нажатии кнопку "Сохранить"
@@ -119,15 +113,15 @@ function addNewCard(evt) {
     newCardToServer(cardNew)
         .then((element) => {
             placeList.prepend(createCardElement(element, deleteCardElement, likeCard, openImage, userId, deleteCardId, likeCardId, unlikeCardId));
-            clearValidation(popupNewCard.querySelector(validationConfig.formSelector), validationConfig)
+            formNewCard.reset();
+            clearValidation(popupNewCard.querySelector(validationConfig.formSelector), validationConfig);
+            closePopup(popupNewCard);
         })
         .catch((err) => {
             console.log(err);
         })
         .finally(() => {
             buttonSaveCard.textContent = "Сохранить";
-            closePopup(popupNewCard);
-            formNewCard.reset();
         });
 }
 
@@ -182,15 +176,15 @@ function formSubmitAvatar(evt) {
     updateAvatar(newAvatar)
         .then((user) => {
             editProfileAvatar.style.backgroundImage = `url(${user.avatar})`;
+            formProfileAvatar.reset();
             clearValidation(popupAvatar.querySelector(validationConfig.formSelector), validationConfig);
+            closePopup(popupAvatar);
         })
         .catch((err) => {
             console.log(err);
         })
         .finally(() => {
             buttonSaveAvatar.textContent = "Сохранить";
-            closePopup(popupAvatar);
-            formProfileAvatar.reset();
         });
 }
 
