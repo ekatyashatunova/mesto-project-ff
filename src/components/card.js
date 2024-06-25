@@ -50,12 +50,11 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
        /* cardLikes.some(card => card._id === cardId)
       if (card.owner._id === userId) */ {
         
-            deleteLike(likeButton);
+            addLike(likeButton);
             unlikeCardId(cardId)
-           
                 .then((res) => {
-                    cardLikeCount.textContent = res.likes.length
-                    
+                    cardLikeCount.textContent = res.likes.length;
+                    console.log(res);
                 })
 
                 .then(() => {
@@ -67,12 +66,12 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
                 });
         }} else {
            
-            addLike(likeButton);
+            deleteLike(likeButton);
             likeCardId(cardId)
                 .then((res) => {
                  cardLikeCount.textContent = res.likes.length;
+                 console.log(res);
                 })
-
                .then(() => {
                     likeCallBack(likeButton);
                 })
