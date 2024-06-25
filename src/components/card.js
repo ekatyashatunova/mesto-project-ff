@@ -15,7 +15,7 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
     cardLikeCount.textContent = card.likes.length;
     const cardId = card._id;
     const ownerId = card.owner._id;
-    const cardLikes = card.likes;
+    /*const cardLikes = card.likes;*/
 
     imageElement.src = card.link;
     imageElement.alt = card.name;
@@ -46,33 +46,25 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
     }
         
     function pressCardLike() { 
-       if (cardLikes.some(user => user._id === userId)) {
-       /* cardLikes.some(card => card._id === cardId)
-      if (card.owner._id === userId) */ {
-        
-            addLike(likeButton);
+       if (card.likes.some(user => user._id === userId)) {
+       
+        addLike(likeButton);
             unlikeCardId(cardId)
                 .then((res) => {
+                    card.likes = res.likes;
                     cardLikeCount.textContent = res.likes.length;
-                    console.log(res);
-                })
-
-                .then(() => {
                     likeCallBack(likeButton);
                 })
-                
                 .catch((err) => {
                     console.log(err) 
                 });
-        }} else {
-           
+        } else {
+            
             deleteLike(likeButton);
-            likeCardId(cardId)
+            likeCardId(cardId)    
                 .then((res) => {
+                    card.likes = res.likes;
                  cardLikeCount.textContent = res.likes.length;
-                 console.log(res);
-                })
-               .then(() => {
                     likeCallBack(likeButton);
                 })
                 .catch((err) => {
@@ -98,5 +90,5 @@ export function deleteCardElement(cardElement) {
 
 //Функция лайка карточки
 export function likeCard(likeButton) {
-    likeButton.classList.toggle("card__like-button_is-active");
+   likeButton.classList.toggle("card__like-button_is-active");
 }
