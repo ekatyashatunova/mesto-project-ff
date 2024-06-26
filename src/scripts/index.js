@@ -7,11 +7,6 @@ import { getEditProfile, getInitialCard, editProfileToServer, newCardToServer, u
 //DOM-узлы
 const placeList = document.querySelector(".places__list");
 
-//Выводим карточки на страницу
-/*initialCards.forEach(function (card) {
-    placeList.append(createCardElement(card, deleteCardElement, likeCard, openImage));
-});*/
-
 const profileButton = document.querySelector(".profile__edit-button");
 const addProfileButton = document.querySelector(".profile__add-button");
 const popupProfile = document.querySelector(".popup_type_edit");
@@ -190,4 +185,5 @@ function formSubmitAvatar(evt) {
 
 //Обработчик события аватара при нажатии кнопку "Сохранить"
 formProfileAvatar.addEventListener("submit", formSubmitAvatar);
+
 
