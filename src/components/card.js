@@ -15,7 +15,6 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
     cardLikeCount.textContent = card.likes.length;
     const cardId = card._id;
     const ownerId = card.owner._id;
-    /*const cardLikes = card.likes;*/
 
     imageElement.src = card.link;
     imageElement.alt = card.name;
@@ -35,6 +34,12 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
         });
     }
 
+    if (card.likes.some((user) => user._id === userId)) {
+        likeButton.classList.add("card__like-button_is-active");
+    } else {
+        likeButton.classList.remove("card__like-button_is-active");
+    }
+
     //Функция добавления класса кнопке "Like"
     function addLike(likeButton) {
         likeButton.classList.add("card__like-button_is-active");
@@ -44,11 +49,10 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
     function deleteLike(likeButton) {
         likeButton.classList.remove("card__like-button_is-active");
     }
-        
-    function pressCardLike() { 
-       if (card.likes.some(user => user._id === userId)) {
-       
-        addLike(likeButton);
+
+    function pressCardLike() {
+        if (card.likes.some((user) => user._id === userId)) {
+            addLike(likeButton);
             unlikeCardId(cardId)
                 .then((res) => {
                     card.likes = res.likes;
@@ -56,26 +60,25 @@ export function createCardElement(card, deleteCardCall, likeCallBack, openImage,
                     likeCallBack(likeButton);
                 })
                 .catch((err) => {
-                    console.log(err) 
+                    console.log(err);
                 });
         } else {
-            
             deleteLike(likeButton);
-            likeCardId(cardId)    
+            likeCardId(cardId)
                 .then((res) => {
                     card.likes = res.likes;
-                 cardLikeCount.textContent = res.likes.length;
+                    cardLikeCount.textContent = res.likes.length;
                     likeCallBack(likeButton);
                 })
                 .catch((err) => {
                     console.log(err);
-                })
-            }        
+                });
+        }
     }
 
- //Событие по клику на кнопку "Like"   
+    //Событие по клику на кнопку "Like"
     likeButton.addEventListener("click", pressCardLike);
-    
+
     imageElement.addEventListener("click", () => {
         openImage(card.link, card.name);
     });
@@ -90,5 +93,7 @@ export function deleteCardElement(cardElement) {
 
 //Функция лайка карточки
 export function likeCard(likeButton) {
-   likeButton.classList.toggle("card__like-button_is-active");
+    likeButton.classList.toggle("card__like-button_is-active");
 }
+
+
