@@ -29,7 +29,7 @@ Promise.all([getEditProfile(), getInitialCard()])
 .then(([userName, cardName]) => {
     profileTitle.textContent = userName.name;
     profileDescription.textContent = userName.about;
-    const userId = userName._id;
+    userId = userName._id;
     editProfileAvatar.style.backgroundImage = `url(${userName.avatar})`;
 
     cardName.forEach((card) => {
